@@ -1,0 +1,32 @@
+version: '3'
+services:
+  softether:
+    container_name: zentao
+    restart: always
+    privileged: true
+    image: easysoft/zentao:latest
+    ports:
+      - 8080:80
+    volumes:
+      - zentaopms:/www/zentaopms
+      - mysqldata:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    networks:
+      - zentaonet
+networks:
+  zentaonet:
+    driver: bridge
+volumes:
+  zentaopms:
+    driver: local
+    driver_opts:
+      type: bind
+      o: bind
+      device: ${PWD}/zentaopms
+  mysqldata:
+    driver: local
+    driver_opts:
+      type: bind
+      o: bind
+      device: ${PWD}/mysqldata
